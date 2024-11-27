@@ -3,6 +3,7 @@
     name: "{{ item }}"
     state: present
   with_items:
+    - base
     - base-devel
     - bash
     - btop
@@ -15,6 +16,7 @@
     - man-pages
     - pkgfile
     - pkgstats
+    - python-jmespath
     - rsync
     - sbctl
     - strace
