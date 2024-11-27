@@ -1,0 +1,14 @@
+---
+- name: Core
+  hosts: all
+  become: true
+  become_user: root
+  roles:
+    - { role: create_user, tags: ["create_user"] }
+    - { role: aur_builder, tags: ["aur_builder"] }
+    - { role: pacoloco, tags: ["pacoloco"] }
+    - { role: hardening, tags: ["hardening"] }
+    - { role: cockpit, tags: ["cockpit"] }
+    - { role: core_packages, tags: ["core_packages"] }
+  tags:
+    - core

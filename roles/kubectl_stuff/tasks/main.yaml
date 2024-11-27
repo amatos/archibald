@@ -1,0 +1,79 @@
+---
+- name: Install K8s tools
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - kubectl
+      - kubectx
+      - helm
+      - helmfile
+      - skaffold
+      - k9s
+
+- name: Install jq, yq
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - jq
+      - yq
+
+- name: Install helm plugins
+  ansible.builtin.command: helm plugin install "{{ item }}"
+  with_items:
+    - "https://github.com/databus23/helm-diff"
+  register: helm_install_plugin
+  changed_when: helm_install_plugin.rc == 0
+  failed_when: (helm_install_plugin.rc not in [0,1]) or ((helm_install_plugin.rc == 1) and (not (helm_install_plugin.stderr | regex_search("Error.* plugin already exists"))))
+
+- name: Install krew
+  kewlfft.aur.aur:
+    state: present
+    name:
+      - krew-bin
+  become: true
+  become_user: aur_builder
+  register: krew_install
+
+- name: Refresh krew repos
+  ansible.builtin.command: kubectl krew update
+  changed_when: true
+  when: krew_install.changed  # noqa: no-handler
+
+- name: Install plugins managed by krew
+  ansible.builtin.command: kubectl krew install "{{ item }}"
+  register: krew_install_plugin
+  with_items:
+    - modify-secret
+    - resource-capacity
+    - pv-migrate
+    - deprecations
+  changed_when: not (krew_install_plugin.stderr | regex_search("Skipping plugin .* it is already installed"))
+
+- name: Template fish plugin
+  ansible.builtin.include_role:
+    name: helper_fish_plugin
+  vars:
+    helper_fish_plugin_directory_name: kubectl_stuff
+    helper_fish_plugin_template_name: kubernetes.fish
+
+- name: Ensure fish completions directory exists
+  ansible.builtin.file:
+    path: ~/.config/fish/ansible/completions
+    state: directory
+    mode: 0755
+
+- name: Create fish completion for kubectl
+  ansible.builtin.include_role:
+    name: helper_command_to_file
+  vars:
+    helper_command_to_file_command: kubectl completion fish
+    helper_command_to_file_path: ~/.config/fish/completions/kubectl.fish
+
+- name: Create fish completion for k9s
+  ansible.builtin.include_role:
+    name: helper_command_to_file
+  vars:
+    helper_command_to_file_command: k9s completion fish
+    helper_command_to_file_path: ~/.config/fish/completions/k9s.fish

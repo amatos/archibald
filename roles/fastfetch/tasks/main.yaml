@@ -1,0 +1,12 @@
+---
+- name: Install fastfetch
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - fastfetch
+      - chafa
+      - imagemagick
+      - libdrm
+      - libelf
+      - zlib

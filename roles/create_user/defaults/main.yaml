@@ -1,0 +1,5 @@
+---
+user:
+  name: "{{ user.name }}"
+  generate_ssh_key: true
+  ssh_key_type: ed25519

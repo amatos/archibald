@@ -1,0 +1,27 @@
+- name: Install core OS packages
+  community.general.pacman:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - base-devel
+    - bash
+    - btop
+    - coreutils
+    - curl
+    - dateutils
+    - fish
+    - fwupd
+    - man-db
+    - man-pages
+    - pkgfile
+    - pkgstats
+    - rsync
+    - sbctl
+    - strace
+    - sysstat
+    - texinfo
+    - udisks2
+    - udisks2-btrfs
+    - zsh
+  become: true
+  become_user: root

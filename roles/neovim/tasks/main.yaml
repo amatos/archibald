@@ -1,0 +1,9 @@
+---
+- name: Install neovim
+  community.general.pacman:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - neovim
+    - neovide
+    - neovim-lspconfig

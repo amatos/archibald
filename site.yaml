@@ -1,0 +1,21 @@
+---
+- name: Gather facts
+  hosts: all
+  tags:
+    - always
+
+- name: Core
+  ansible.builtin.import_playbook: playbooks/core.yml
+
+- name: CLI
+  ansible.builtin.import_playbook: playbooks/cli.yml
+
+- name: Mail
+  ansible.builtin.import_playbook: playbooks/mail.yml
+
+# TODO: split into more playbooks
+- name: All
+  ansible.builtin.import_playbook: playbooks/all.yml
+
+- name: Unorganized
+  ansible.builtin.import_playbook: playbooks/unorganized.yml

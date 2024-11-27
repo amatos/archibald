@@ -1,0 +1,46 @@
+---
+- name: Install tmux and inetutils (for hostname cmd)
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - tmux
+      - inetutils
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: ~/.tmux/plugins
+    state: directory
+    mode: 0755
+
+- name: Clone tmux plugin manager
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm.git
+    dest: ~/.tmux/plugins/tpm
+    version: v3.1.0
+  register: var_tmux_tpm_git
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: "~"
+    state: directory
+    mode: 0755
+
+- name: Copy tmux.conf
+  ansible.builtin.copy:
+    src: tmux.conf
+    dest: ~/.tmux.conf
+    mode: 0644
+
+- name: Copy tmux_plugins.conf
+  ansible.builtin.copy:
+    src: tmux_plugins.conf
+    dest: ~/.tmux_plugins.conf
+    mode: 0644
+  register: var_tmux_plugins
+
+- name: Install plugins
+  ansible.builtin.shell:
+    cmd: tmux start-server && tmux new-session -d install_plugins && ~/.tmux/plugins/tpm/scripts/install_plugins.sh
+  when: var_tmux_plugins.changed or var_tmux_tpm_git.changed
+  changed_when: true

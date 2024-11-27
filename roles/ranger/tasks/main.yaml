@@ -1,0 +1,30 @@
+---
+- name: Get rid of repos ranger
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - ranger
+    state: absent
+
+- name: Install ranger from AUR
+  # TODO: install from Arch repos when version newer than 2019
+  # with sixel support is released
+  become: true
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    name:
+      - ranger-git
+    state: present
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: ~/.config/ranger
+    state: directory
+    mode: 0755
+
+- name: Copy ranger config
+  ansible.builtin.copy:
+    src: rc.conf
+    dest: ~/.config/ranger/rc.conf
+    mode: 0644

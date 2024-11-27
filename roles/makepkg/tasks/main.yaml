@@ -1,0 +1,51 @@
+---
+- name: Install package-build tools
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - ccache
+      - git
+      - pbzip2
+      - pigz
+    state: present
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: /etc/makepkg.conf.d/
+    state: directory
+    mode: 0755
+  become: true
+  become_user: root
+
+- name: Deploy makepkg dropin for build environments
+  ansible.builtin.copy:
+    src: mkpkg-buildenv.conf
+    dest: /etc/makepkg.conf.d/
+    mode: '0644'
+  become: true
+  become_user: root
+
+- name: Deploy makepkg dropin for compiler settings
+  ansible.builtin.copy:
+    src: mkpkg-compiler.conf
+    dest: /etc/makepkg.conf.d/
+    mode: '0644'
+  become: true
+  become_user: root
+
+- name: Deploy makepkg dropin for compression
+  ansible.builtin.copy:
+    src: mkpkg-compression.conf
+    dest: /etc/makepkg.conf.d/
+    mode: '0644'
+  become: true
+  become_user: root
+
+- name: Deploy makepkg dropin for global options
+  ansible.builtin.copy:
+    src: mkpkg-global-options.conf
+    dest: /etc/makepkg.conf.d/
+    mode: '0644'
+  become: true
+  become_user: root

@@ -1,0 +1,15 @@
+---
+- name: Install apprise
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - apprise
+
+- name: Template fish plugin
+  when: "apprise_pushover_user_key | length > 0 and apprise_pushover_api_key | length > 0"
+  ansible.builtin.include_role:
+    name: helper_fish_plugin
+  vars:
+    helper_fish_plugin_directory_name: apprise
+    helper_fish_plugin_template_name: pushover.fish

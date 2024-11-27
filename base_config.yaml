@@ -1,0 +1,80 @@
+---
+local_machine:
+  hosts:
+    localhost:
+      ansible_connection: local
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+    hostname: ""
+
+    ##
+    # Linux Kernel
+    # ============
+    # For details, see https://wiki.archlinux.org/title/Kernel
+    # Kernels:
+    #   Option: "linux" Vanilla Linux kernel and modules, with a few patches applied.
+    #   Option: "linux-hardened" A security-focused Linux kernel
+    #   Option: "linux-zen" The result of a collaborative effort of kernel hackers to provide the best Linux kernel possible for everyday systems.
+    #   Option: "linux-lts" Lont-term support Kernel
+    #
+    # Leave this blank for CachyOS or other systems where you don't want to specify a kernel.
+    ##
+    kernel: "linux-zen"
+
+    # Filesystem crypto settings
+    LUKS:
+      enbled: false
+      cryptdevice_uuid: ""
+      cryptdevice_container: archlvm
+      root: /dev/ArchGroup/root
+      resume: /dev/ArchGroup/swap
+      additional_kernel_params: ""
+
+    # Pacman settings
+    # All false - Don't run the updates by default
+    pacman:
+      update: false
+      upgrade: false
+      multilib: false
+
+    # OpenSSH settings
+    openssh:
+      started: true
+      enabled: true
+      xforwarding: false
+
+    # Cockpit
+    cockpit:
+      installed: true
+      started: false
+      enabled: false
+
+    # NTP
+    ntp:
+      hwclock: UTC
+      timezone: America/New_York
+
+    ##
+    # User configuration
+    # ==================
+    # Pretty self-explanatory.
+    # name: The user id
+    # shell: Name of the desired shell (bash/zsh/fish)
+    #
+    ##
+    user:
+      name: alberth
+      shell: fish
+      generate_ssh_key: false
+      ssh_key_type: ed25519
+      email: alberth@matos.cc
+      gpg_key: F41BDBF6171A3BB4
+      gpg_sign_commits: true
+
+    # Bluetooth
+    # enabled: enable by default
+    # install_gui: Install configuration GUI
+    bluetooth:
+      enabled: false
+      install_gui: true

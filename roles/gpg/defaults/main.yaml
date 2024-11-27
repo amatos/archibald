@@ -1,0 +1,3 @@
+---
+gpg_user_key: "{{ user.gpg_key }}"
+gpg_sign_git_commits: true

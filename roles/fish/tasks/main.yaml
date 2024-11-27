@@ -1,0 +1,69 @@
+---
+- name: Install fish
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - fish
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: ~/.config/fish
+    state: directory
+    mode: 0755
+
+- name: Template fish config
+  ansible.builtin.template:
+    src: config.fish
+    dest: ~/.config/fish/
+    mode: 0644
+
+- name: Template fish plugins config
+  ansible.builtin.template:
+    src: plugins.fish
+    dest: ~/.config/fish/plugins.fish
+    mode: 0644
+  register: var_fish_plugins
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: ~/.config/fish/functions
+    state: directory
+    mode: 0755
+
+- name: Copy fundle setup script
+  ansible.builtin.template:
+    src: fundle.fish
+    dest: ~/.config/fish/functions
+    mode: 0644
+  register: var_fundle_script
+
+- name: Get plugins
+  ansible.builtin.shell: fish -c "fundle install" && fish -c "fundle update"
+  when: var_fish_plugins.changed or var_fundle_script.changed
+  changed_when: true
+
+- name: Ensure scriptlets directory is cleaned up
+  ansible.builtin.file:
+    path: ~/.config/fish/ansible/fish
+    state: absent
+
+- name: Template fish blocks
+  ansible.builtin.template:
+    src: blocks.fish
+    dest: ~/.config/fish/blocks.fish
+    mode: 0644
+
+- name: Ensure completions directory exists
+  ansible.builtin.file:
+    path: ~/.config/fish/completions
+    state: directory
+    mode: 0755
+
+- name: Enable shell
+  become: true
+  become_user: root
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: '{{ user_shell | default("/bin/bash") }}'
+    state: present

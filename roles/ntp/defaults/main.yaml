@@ -1,0 +1,4 @@
+---
+ntp:
+  hwclock: UTC
+  timezone: America/New_York
