@@ -14,7 +14,6 @@
   
 - name: Configure Unified Kernel Image (uki)
   ansible.builtin.import_tasks: uki.yaml
-  when: uki
 
 - name: Plymouth
   community.general.pacman:
