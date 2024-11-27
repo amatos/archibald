@@ -1,4 +1,12 @@
 ---
+- name: Install required btrfs-progs package
+  become: true
+  become_user: root
+  community.general.pacman:
+    name:
+      - btrfs-progs
+    state: present
+
 - name: Ensure directory exists
   ansible.builtin.file:
     path: /etc/mkinitcpio.conf.d
