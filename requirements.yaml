@@ -4,3 +4,6 @@ collections:
     version: ">=7.1.0"
   - name: kewlfft.aur
     version: ">=0.10.0"
+  - name: lingling9000.btrfssubvol
+    version: "v1.1.1"
+

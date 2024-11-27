@@ -8,6 +8,12 @@ local_machine:
 
     hostname: ""
 
+
+    ## Replace with the real UUID obtained from `blkid`:
+    # blkid --match-tag UUID --output value /dev/sdXY
+
+    btrfssubvol_device_uuid: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
     ##
     # Linux Kernel
     # ============
