@@ -19,7 +19,7 @@
     - LUKS.cryptdevice_container
     - not LUKS.cryptdevice_uuid
   ansible.builtin.fail:
-    msg: "LUKS.cryptdevice_container is set, while LUKS.cryptdevice_uuid is empty. Did you forget to set it in custom.yml?"
+    msg: "LUKS.cryptdevice_container is set, while LUKS.cryptdevice_uuid is empty. Did you forget to set it in custom.yaml?"
 
 - name: Template refind_linux.conf with LUKS
   ansible.builtin.template:
