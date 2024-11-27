@@ -26,7 +26,7 @@
   ansible.builtin.systemd:
     name: sshd
     state: "{{ (sshd_conf.changed) | ternary('restarted', 'started') }}"
-  when: openssh.start
+  when: openssh.started
 
 - name: Enable sshd
   become: true
@@ -34,4 +34,4 @@
   ansible.builtin.systemd:
     name: sshd
     enabled: true
-  when: openssh.enable
+  when: openssh.enabled
