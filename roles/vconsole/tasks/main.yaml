@@ -10,7 +10,7 @@
 - name: Copy vconsole.conf
   become: true
   become_user: root
-  ansible.builtin.copy:
-    src: vconsole.conf
+  ansible.builtin.template:
+    src: vconsole.conf.j2
     dest: /etc/vconsole.conf
     mode: 0644
