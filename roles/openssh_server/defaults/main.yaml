@@ -1,6 +1,5 @@
 ---
 openssh:
-  user_name: "{{ user_name }}"
   started: true
   enabled: true
   xforwarding: false

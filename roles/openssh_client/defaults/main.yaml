@@ -1,0 +1,4 @@
+---
+openssh:
+  user_name: "{{ user_name }}"
+

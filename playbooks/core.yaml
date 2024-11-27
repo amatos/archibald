@@ -15,7 +15,7 @@
     - { role: networkmanager, tags: ["networkmanager"] }
     - { role: ntp, tags: ["ntp"] }
     - { role: sudo, tags: ["sudo"] }
-    - { role: openssh, tags: ["openssh"] }
+    - { role: openssh_server, tags: ["openssh_server"] }
     - { role: microcodes, tags: ["microcodes"] }
     - { role: kernel, tags: ["kernel"] }
     - { role: mkinitcpio, tags: ["mkinitcpio", "never"] }
