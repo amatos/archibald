@@ -31,12 +31,13 @@
   become: true
   become_user: aur_builder
   when: aur_builder_install_yay
+  register: yay_installed
 
 - name: Install powerpill pacman assistant
   kewlfft.aur.aur:
     name: powerpill
-    use: makepkg
+    use: yay
     state: present
   become: true
   become_user: aur_builder
-  when: aur_builder_install_yay
+  when: yay_installed
