@@ -4,7 +4,7 @@
       - linux
       - linux-headers
     state: present
-  when: (kernel == "linux") and (system_distribution == "arch")
+  when: kernel == "linux"
   notify:
     - Regenerate initramfs
 
@@ -14,7 +14,7 @@
       - linux-hardened
       - linux-hardened-headers
     state: present
-  when: (kernel == "linux-hardened") and (system_distribution == "arch")
+  when: kernel == "linux-hardened"
   notify:
     - Regenerate initramfs
 
@@ -24,7 +24,7 @@
       - linux-zen
       - linux-zen-headers
     state: present
-  when: (kernel == "linux-zen") and (system_distribution == "arch")
+  when: kernel == "linux-zen"
   notify:
     - Regenerate initramfs
 
@@ -34,6 +34,6 @@
       - linux-lts
       - linux-lts-headers
     state: present
-  when: (system_distribution == "arch")
+  when: not kernel == ""
   notify:
     - Regenerate initramfs

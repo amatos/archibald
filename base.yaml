@@ -33,9 +33,10 @@ local_machine:
     #   Option: "linux" Vanilla Linux kernel and modules, with a few patches applied.
     #   Option: "linux-hardened" A security-focused Linux kernel
     #   Option: "linux-zen" The result of a collaborative effort of kernel hackers to provide the best Linux kernel possible for everyday systems.
-    #   Option: "linux-lts" Lont-term support Kernel
     #
-    # Leave this blank for CachyOS or other systems where you don't want to specify a kernel.
+    #   n.b. linux-lts is _always_ installed--unless kernel: "".
+    #
+    # Leave this empty for CachyOS or other systems where you don't want to specify a kernel.
     ##
     kernel: "linux-zen"
 
