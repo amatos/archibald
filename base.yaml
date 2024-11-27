@@ -42,7 +42,7 @@ local_machine:
 
     # Filesystem crypto settings
     LUKS:
-      enbled: false
+      enabled: false
       cryptdevice_uuid: ""
       cryptdevice_container: archlvm
       root: /dev/ArchGroup/root

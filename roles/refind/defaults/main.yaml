@@ -3,7 +3,7 @@
 # Set below variables to '' to not add kernel parameters related to it
 # Use the `blkid` command to find the drive's UUID
 LUKS:
-  enbled: false
+  enabled: false
   cryptdevice_uuid: ""
   cryptdevice_container: archlvm
   root: /dev/ArchGroup/root
