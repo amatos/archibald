@@ -1,7 +1,0 @@
----
-- name: bootstrap minimal arch linux environment
-  hosts: all
-  roles:
-    - { role: btrfs, tags: ["btrfs"] }
-  tags:
-    - bootstrap

@@ -1,7 +1,0 @@
----
-btrfssubvol_mount_options:
-  - defaults
-  - compress=zstd:3
-  - relatime
-  - discard=async
-  - ssd
