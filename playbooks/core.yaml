@@ -4,6 +4,22 @@
   become: true
   become_user: root
   roles:
+    - { role: hostname, tags: ["hostname"] }
+    - { role: reflector, tags: ["reflector"] }
+    - { role: pacman, tags: ["pacman"] }
+    - { role: makepkg, tags: ["makepkg"] }
+    - { role: locale, tags: ["locale"] }
+    - { role: userconf, tags: ["userconf"] }
+    - { role: vconsole, tags: ["vconsole"] }
+    - { role: nftables, tags: ["nftables"] }
+    - { role: networkmanager, tags: ["networkmanager"] }
+    - { role: ntp, tags: ["ntp"] }
+    - { role: sudo, tags: ["sudo"] }
+    - { role: openssh, tags: ["openssh"] }
+    - { role: microcodes, tags: ["microcodes"] }
+    - { role: kernel, tags: ["kernel"] }
+    - { role: mkinitcpio, tags: ["mkinitcpio", "never"] }
+    - { role: refind, tags: ["refind", "never"] }
     - { role: create_user, tags: ["create_user"] }
     - { role: aur_builder, tags: ["aur_builder"] }
     - { role: pacoloco, tags: ["pacoloco"] }
