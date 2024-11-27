@@ -1,0 +1,48 @@
+- name: Install kernel
+  ansible.builtin.import_tasks: kernels.yaml
+
+- name: Create /etc/cmdline.d directory
+  ansible.builtin.file:
+    path: /etc/cmdline.d
+    state: directory
+    mode: "0755"
+  register: created_cmdline
+
+- name: Prep for Unified Kernel Image (uki)
+  ansible.builtin.import_tasks: prep_for_uki.yaml
+  when: created_cmdline
+  
+- name: Configure Unified Kernel Image (uki)
+  ansible.builtin.import_tasks: uki.yaml
+  when: uki
+
+- name: Plymouth
+  community.general.pacman:
+    name:
+      - plymouth
+    state: present
+  when: system.plymouth
+  notify:
+    - Regenerate initramfs
+
+- name: Push mkinitcpio configuration
+  ansible.builtin.template:
+    src: mkinitcpio.conf.j2
+    dest: /etc/mkinitcpio.conf.d/mkinitcpio-override.conf
+    mode: '0644'
+  notify:
+    - Regenerate initramfs
+
+- name: Firmware
+  community.general.pacman:
+    name:
+      - linux-firmware
+      - sof-firmware
+    state: present
+  notify:
+    - Regenerate initramfs
+
+- name: Run mkinitcpio
+  ansible.builtin.command: "mkinitcpio -P"
+  become: true
+  register: output

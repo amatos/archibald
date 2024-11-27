@@ -1,0 +1,30 @@
+- name: Find UEFI partition
+  ansible.builtin.shell: 'cat /etc/fstab |grep efi | grep UUID | cut -f 2'
+  register: uefi_path
+
+- name: Create UEFI/EFI/Linux
+  ansible.builtin.file:
+    path: "{{ uefi_path.stdout | replace(' ', '') }}/EFI/Linux"
+    state: directory
+    mode: '0755'
+
+- name: Enable default UKI image
+  ansible.builtin.lineinfile:
+    path: "/etc/mkinitcpio.d/{{ kernel }}.preset"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^default_image=', line: '#default_image="/boot/initramfs-{{ kernel }}.img"' }
+    - { regexp: '^#default_uki=', line: 'default_uki="{{ uefi_path.stdout | replace(" ", "") }}/EFI/Linux/arch-{{ kernel }}.efi"' }
+    - { regexp: '^#default_options=', line: 'default_options="--splash /usr/share/systemd/bootctl/splash-arch.bmp"' }
+    - { regexp: '^fallback_image=', line: '#fallback_image=#default_image="/boot/initramfs-{{ kernel }}-fallback.img"' }
+    - { regexp: '^#fallback_uki=', line: 'fallback_uki="{{ uefi_path.stdout | replace(" ", "") }}/EFI/Linux/arch-{{ kernel }}-fallback.efi"' }
+    - { regexp: '^#fallback_options=', line: 'fallback_options="-S autodetect"' }
+
+- name: Remove old image
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/boot/initramfs-{{ kernel }}.img"
+    - "/boot/initramfs-{{ kernel }}-fallback.img"
