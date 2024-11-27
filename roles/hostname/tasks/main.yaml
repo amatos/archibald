@@ -1,7 +1,7 @@
 - name: Create hostname file
   ansible.builtin.lineinfile:
     path: /etc/hostname
-    line: "{{ system.hostname }}"
+    line: "{{ hostname }}"
     create: yes
   become: true
   become_user: root

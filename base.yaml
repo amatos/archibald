@@ -7,7 +7,18 @@ local_machine:
     ansible_python_interpreter: /usr/bin/python3
 
     hostname: ""
-
+    system:
+      hostname: ""
+      pacman: true
+      makepkg: true
+      cockpit: false
+      plymouth: true
+      locale: "en_US.UTF-8"
+      timezone: "America/New_York"
+      processor: "amd"
+      graphics_card: "amd"
+      macspoof: false
+      type: ""
 
     ## Replace with the real UUID obtained from `blkid`:
     # blkid --match-tag UUID --output value /dev/sdXY
