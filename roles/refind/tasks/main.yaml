@@ -71,7 +71,6 @@
   when:
     - refind_root_uuid
     - refind_swap_uuid
-    - not uki
 
 - name: Create /etc/pacman.d/hooks/ directory
   ansible.builtin.file:
